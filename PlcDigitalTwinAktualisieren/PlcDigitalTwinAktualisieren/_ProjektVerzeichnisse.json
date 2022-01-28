@@ -1,0 +1,44 @@
+﻿{
+  "AlleProjekte": [
+    {
+      "Kommentar": "Ordner",
+      "Quelle": "k:/git/PlcDigitalTwinAutoTest/PlcDigitalTwinAutoTest",
+      "Ziel": "k:/git/PlcDigitalTwin"
+    },
+    {
+      "Kommentar": "Template",
+      "Quelle": "k:/git/PlcDigitalTwinAutoTest/PlcDigitalTwinAutoTest/DtKata/bin/Debug/net6.0-windows",
+      "Ziel": "k:/git/PlcDigitalTwin/_TemplateDigitalTwin/net6.0-windows"
+    },
+    {
+      "Kommentar": "IpAdressen",
+      "Quelle": "k:/git/PlcDigitalTwin/_JsonDateien",
+      "Ziel": "k:/git/PlcDigitalTwin/_JsonDateien"
+    },
+    {
+      "Kommentar": "Digital Twin Blinker",
+      "Quelle": "DtBlinker/bin/Debug",
+      "Ziel": "DeltaBlinker"
+    },
+    {
+      "Kommentar": "Digital Twin Fibonacci",
+      "Quelle": "DtFibonacci/bin/Debug",
+      "Ziel": "DeltaFibonacci"
+    },
+    {
+      "Kommentar": "Digital Twin Getriebemotor",
+      "Quelle": "DtGetriebemotor/bin/Debug",
+      "Ziel": "DeltaGetriebemotor"
+    },
+    {
+      "Kommentar": "Digital Twin Kata",
+      "Quelle": "DtKata/bin/Debug",
+      "Ziel": "DeltaKata"
+    },
+    {
+      "Kommentar": "Digital Twin Linearachse",
+      "Quelle": "DtLinearachse/bin/Debug",
+      "Ziel": "DeltaLinearachse"
+    }
+  ]
+}
