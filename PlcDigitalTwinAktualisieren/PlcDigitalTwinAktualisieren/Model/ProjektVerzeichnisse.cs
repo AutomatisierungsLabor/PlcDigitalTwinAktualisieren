@@ -6,7 +6,6 @@ public class ProjektVerzeichnisse
 {
     public ObservableCollection<Ordner> AlleProjekte { get; set; } = new();
 }
-
 public class Ordner
 {
     public Ordner()

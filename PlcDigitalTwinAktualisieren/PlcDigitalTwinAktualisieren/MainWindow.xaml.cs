@@ -7,16 +7,16 @@ namespace PlcDigitalTwinAktualisieren;
 public partial class MainWindow
 {
     private readonly DateiFunktionen _dateiFunktionen;
-    
+
     public MainWindow()
     {
         var viewModel = new ViewModel.ViewModel();
         var jsonConfig = new JsonConfig(viewModel);
-        _dateiFunktionen=new DateiFunktionen(viewModel, jsonConfig);
+        _dateiFunktionen = new DateiFunktionen(viewModel, jsonConfig);
 
         InitializeComponent();
         DataContext = viewModel;
-     
+
         DataGrid.ItemsSource = viewModel.ViAnzeige.OrdnerDateiInfoDataGrid;
     }
     internal void TemplateKompieren_Click(object sender, RoutedEventArgs e) => Dispatcher.Invoke(() => { _dateiFunktionen.TemplateKopieren(); });

@@ -14,6 +14,7 @@ internal class DateiFunktionen
     private const string DotNetOrdner = "net6.0-windows";
     private const string IpBeckhoff = "IpAdressenBeckhoff.json";
     private const string IpSiemens = "IpAdressenSiemens.json";
+
     public DateiFunktionen(ViewModel.ViewModel viewModel, JsonConfig jsonConfig)
     {
         _viewModel = viewModel;
@@ -38,13 +39,11 @@ internal class DateiFunktionen
             JsonDateienKontrollieren(datei, IpSiemens);
         }
     }
-
-    private void JsonDateienKontrollieren(FileInfo datei, string ipJson)
+    private void JsonDateienKontrollieren(FileSystemInfo datei, string ipJson)
     {
         if (!string.Equals(datei.Name, ipJson)) return;
         if (!AreFileContentsEqual(datei.FullName, Path.Combine(_jsonConfig.OrdnerIpAdressen, ipJson))) MessageBox.Show(" Dateien sind unterschiedlich: " + ipJson);
     }
-
     internal void ProjekteAktualisieren()
     {
         _viewModel.ViAnzeige.OrdnerDateiInfoDataGrid.Clear();
@@ -89,7 +88,7 @@ internal class DateiFunktionen
         var dateiNamen = dateien.Select(dateiname => dateiname[(anfangsPos + 15)..]).ToList();
         return dateiNamen;
     }
-    private void EinProjektKopieren(Ordner projekt, List<string> dateienamenTemplate)
+    private void EinProjektKopieren(Ordner projekt, IReadOnlyCollection<string> dateienamenTemplate)
     {
         OrdnerNeuErstellen($"{_jsonConfig.ZielOrdnerProjekte}/{projekt.Ziel}");
         OrdnerLoeschen($"{_jsonConfig.ZielOrdnerProjekte}/{projekt.Ziel}/{DotNetOrdner}");
@@ -101,21 +100,10 @@ internal class DateiFunktionen
             var vorhanden = false;
             var dateinameQuelleKomplett = Path.Combine(_jsonConfig.QuellOrdnerProjekte, projekt.Quelle, DotNetOrdner, dateiProjekt);
 
-            foreach (var dateiTemplate in dateienamenTemplate)
+            foreach (var dateinameTemplateKomplett in from dateiTemplate in dateienamenTemplate where dateiProjekt.Contains(dateiTemplate) select Path.Combine(_jsonConfig.ZielOrdnerTemplate, dateiProjekt))
             {
-                if (!dateiProjekt.Contains(dateiTemplate)) continue;
-
-                var dateinameTemplateKomplett = Path.Combine(_jsonConfig.ZielOrdnerTemplate, dateiProjekt);
-
-                if (AreFileContentsEqual(dateinameQuelleKomplett, dateinameTemplateKomplett))
-                {
-                    vorhanden = true;
-                    _viewModel.ViAnzeige.OrdnerDateiInfoDataGrid.Add(new OrdnerDateiInfo(dateiProjekt, true, true, false, false));
-                }
-                else
-                {
-                    _viewModel.ViAnzeige.OrdnerDateiInfoDataGrid.Add(new OrdnerDateiInfo(dateiProjekt, true, false, false, false));
-                }
+                vorhanden = AreFileContentsEqual(dateinameQuelleKomplett, dateinameTemplateKomplett);
+                _viewModel.ViAnzeige.OrdnerDateiInfoDataGrid.Add(new OrdnerDateiInfo(dateiProjekt, true, vorhanden, false, false));
             }
 
             if (vorhanden) continue;
