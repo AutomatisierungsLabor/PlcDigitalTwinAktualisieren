@@ -48,9 +48,9 @@ internal class DateiFunktionen
     {
         _viewModel.ViAnzeige.OrdnerDateiInfoDataGrid.Clear();
 
-        var dateienamenTemplate = DateiNamenExtrahieren($"{_jsonConfig.ZielOrdnerTemplate}");
+        var dateienamenTemplate = DateiNamenExtrahieren(Path.Combine(_jsonConfig.ZielOrdnerTemplate));
 
-        foreach (var projekt in _jsonConfig.OrdnerStruktur.AlleProjekte)
+        foreach (var projekt in _jsonConfig.OrdnerStruktur?.AlleProjekte!)
         {
             switch (projekt.Kommentar)
             {
@@ -68,7 +68,7 @@ internal class DateiFunktionen
     {
         _viewModel.ViAnzeige.OrdnerDateiInfoDataGrid.Clear();
 
-        foreach (var projekt in _jsonConfig.OrdnerStruktur.AlleProjekte)
+        foreach (var projekt in _jsonConfig.OrdnerStruktur?.AlleProjekte!)
         {
             switch (projekt.Kommentar)
             {
@@ -90,10 +90,10 @@ internal class DateiFunktionen
     }
     private void EinProjektKopieren(Ordner projekt, IReadOnlyCollection<string> dateienamenTemplate)
     {
-        OrdnerNeuErstellen($"{_jsonConfig.ZielOrdnerProjekte}/{projekt.Ziel}");
-        OrdnerLoeschen($"{_jsonConfig.ZielOrdnerProjekte}/{projekt.Ziel}/{DotNetOrdner}");
+        OrdnerNeuErstellen( Path.Combine(_jsonConfig.ZielOrdnerProjekte,projekt.Ziel));
+        OrdnerLoeschen(Path.Combine(_jsonConfig.ZielOrdnerProjekte,projekt.Ziel,DotNetOrdner));
 
-        var dateienProjekt = DateiNamenExtrahieren($"{_jsonConfig.QuellOrdnerProjekte}/{projekt.Quelle}");
+        var dateienProjekt = DateiNamenExtrahieren(Path.Combine(_jsonConfig.QuellOrdnerProjekte,projekt.Quelle));
 
         foreach (var dateiProjekt in dateienProjekt)
         {
@@ -121,10 +121,8 @@ internal class DateiFunktionen
     {
         try
         {
-
             if (Directory.Exists(ordner)) Directory.Delete(ordner, true);
-            if (ordner != null) Directory.CreateDirectory(ordner);
-
+            Directory.CreateDirectory(ordner);
         }
         catch (Exception exp)
         {
@@ -135,7 +133,6 @@ internal class DateiFunktionen
     {
         try
         {
-            if (ordner == null) return;
             Directory.CreateDirectory(ordner);
         }
         catch (Exception exp)

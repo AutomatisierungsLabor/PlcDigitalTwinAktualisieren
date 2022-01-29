@@ -6,6 +6,19 @@ namespace PlcDigitalTwinAktualisieren.ViewModel;
 
 public class VisuAnzeigen : INotifyPropertyChanged
 {
+
+    public VisuAnzeigen()
+    {
+        _quellOrdnerProjekte = "-";
+        _zielOrdnerProjekte = "-";
+        _quellOrdnerTemplate = "-";
+        _zielOrdnerTemplate = "-";
+        QuellOrdnerProjekte = "-";
+        ZielOrdnerProjekte = "-";
+        QuellOrdnerTemplate = "-";
+        ZielOrdnerTemplate = "-";
+    }
+
     private string _quellOrdnerProjekte;
     public string QuellOrdnerProjekte
     {
@@ -86,9 +99,6 @@ public class VisuAnzeigen : INotifyPropertyChanged
         }
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-    private void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    public event PropertyChangedEventHandler? PropertyChanged;
+    private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
